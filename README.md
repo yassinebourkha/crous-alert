@@ -13,6 +13,8 @@ Saisir ces valeurs uniquement dans les secrets GitHub, jamais dans le code.
 
 Ensuite, ouvrir **Actions → Alertes CROUS → Run workflow** pour lancer une première vérification. La planification prend ensuite le relais. Le workflow s'exécute depuis `main`.
 
+Le lancement manuel propose aussi une case pour vérifier le site sans envoyer de message Telegram. Ce mode fonctionne avant l'ajout des secrets.
+
 ## Fonctionnement
 
 - Le script effectue une seule vérification et termine. Les disponibilités doivent être explicitement confirmées par les données CROUS.

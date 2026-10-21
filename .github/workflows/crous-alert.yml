@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '2-57/5 * * * *'
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Vérifier le site sans envoyer de message Telegram'
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths:
@@ -40,7 +45,13 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python main.py
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = 'true' ]; then
+            python main.py --dry-run
+          else
+            python main.py
+          fi
       - name: Sauvegarder les alertes déjà envoyées
         if: ${{ always() && !cancelled() }}
         run: |
