@@ -7,9 +7,18 @@ GitHub Actions vérifie les logements toutes les cinq minutes, jour et nuit, mê
 Dans **Settings → Secrets and variables → Actions → New repository secret**, ajouter :
 
 - `TELEGRAM_BOT_TOKEN` : le jeton du bot fourni par BotFather.
-- `TELEGRAM_CHAT_ID` : l'identifiant de la conversation destinataire. Ouvrir d'abord le bot sur Telegram et lui envoyer `/start`.
+- `TELEGRAM_CHAT_ID` : l'identifiant de la conversation destinataire. Pour un canal public, le nom `@nom_du_canal` est accepté. Pour un canal privé, utiliser son identifiant numérique (généralement `-100...`).
 
 Saisir ces valeurs uniquement dans les secrets GitHub, jamais dans le code.
+
+Pour obtenir les identifiants d'un nouveau bot et d'un canal privé :
+
+1. Ouvrir le compte officiel [@BotFather](https://t.me/BotFather), envoyer `/newbot`, choisir un nom et un identifiant se terminant par `bot`. Le jeton fourni est la valeur de `TELEGRAM_BOT_TOKEN`. Si le bot existe déjà, `/mybots` permet de le sélectionner et de consulter son API Token.
+2. Ajouter le bot comme administrateur du canal avec le droit de publier des messages.
+3. Publier un nouveau message dans le canal après l'ajout du bot.
+4. Consulter l'API officielle `https://api.telegram.org/botVOTRE_JETON/getUpdates` en remplaçant `VOTRE_JETON` par le jeton. Dans `result`, repérer `channel_post`, puis `chat`, puis `id` pour le bon canal. Copier le nombre complet, signe négatif compris, dans `TELEGRAM_CHAT_ID`. Si `result` est vide, publier un nouveau message et recharger. Cette procédure concerne un nouveau bot sans webhook ; les mises à jour ne sont conservées que 24 heures.
+
+Documentation Telegram : [création d'un bot](https://core.telegram.org/bots/tutorial#obtain-your-bot-token), [getUpdates](https://core.telegram.org/bots/api#getupdates).
 
 Ensuite, ouvrir **Actions → Alertes CROUS → Run workflow** pour lancer une première vérification. La planification prend ensuite le relais. Le workflow s'exécute depuis `main`.
 
